@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import type {
   Folder,
   FileItem,
-} from "../../../../services/ComputerStudiesServices";
+} from "../../../../interfaces/ComputerStudies";
 import ComputerStudiesServices from "../../../../services/ComputerStudiesServices";
 import SearchUploadBar from "./Components/SearchBar";
 import Breadcrumbs from "./Components/BreadCrumps";

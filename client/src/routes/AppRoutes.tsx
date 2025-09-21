@@ -4,6 +4,7 @@ import LoginPage from "../pages/auth/LoginPage";
 
 import Departments from "../pages/department/departmentMainPage";
 import ComputerStudies from "../pages/department/computerStudies/computerStudiesMainPage";
+import NursingMainPage from "../pages/department/Nursing/nursingMainPage";
 import Dashboard from "../pages/dashboardMainPage";
 import FolderPage from "../pages/department/computerStudies/Folders/FolderPage";
 // Optional: create a simple NotFound page
@@ -14,10 +15,10 @@ const NotFoundPage = () => (
 const AppRoutes = () => {
   return (
     <Routes>
-      {/* ✅ Public route */}
+      {/* Public route */}
       <Route path="/" element={<LoginPage />} />
 
-      {/* ✅ Protected routes (inside AppLayout) */}
+      {/* Protected routes (inside AppLayout) */}
       <Route element={<AppLayout />}>
         <Route path="dashboard" element={<Dashboard />} />
         <Route path="departments" element={<Departments />} />
@@ -25,13 +26,14 @@ const AppRoutes = () => {
           path="departments/computerstudies"
           element={<ComputerStudies />}
         />
+        <Route path="departments/nursing" element={<NursingMainPage />} />
         <Route
           path="departments/computerstudies/folder/:id"
           element={<FolderPage />}
         />
       </Route>
 
-      {/* ✅ Catch-all route */}
+      {/*  Catch-all route */}
       <Route path="*" element={<NotFoundPage />} />
     </Routes>
   );

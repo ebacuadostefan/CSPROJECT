@@ -9,6 +9,7 @@ return new class extends Migration {
     {
         Schema::create('departments', function (Blueprint $table) {
             $table->id();
+            $table->string('image'); // Department image path
             $table->string('name'); // Department name
             $table->string('alias');
             $table->timestamps();

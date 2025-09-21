@@ -7,13 +7,14 @@ import AddDepartmentForm from "../department/components/AddDepartmentForm";
 import DepartmentServices, {
   type Department,
 } from "../../services/DepartmentServices";
-import CCSimg from "../../assets/img/CSSimg.jpg";
 
 const Departments = () => {
   const [departments, setDepartments] = useState<Department[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
+
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const navigate = useNavigate();
+  const backendBase = "http://127.0.0.1:8000";
 
   // 🔹 Load departments
   useEffect(() => {
@@ -29,12 +30,9 @@ const Departments = () => {
   }, []);
 
   // 🔹 Add department
-  const handleAddDepartment = async (name: string, alias: string) => {
+  const handleAddDepartment = async (formData: FormData) => {
     try {
-      const newDept = await DepartmentServices.storeDepartment({
-        name,
-        alias,
-      });
+      const newDept = await DepartmentServices.storeDepartment(formData);
       setDepartments((prev) => [...prev, newDept]);
       setIsAddModalOpen(false);
     } catch (error) {
@@ -85,19 +83,29 @@ const Departments = () => {
           filteredDepartments.map((dept) => (
             <div
               key={dept.id}
-              onClick={() =>
-                dept.name === "Computer Studies" ||
-                "College of Computer Studies"
-                  ? navigate("/departments/computerstudies")
-                  : alert(`Page for ${dept.name} is not yet available.`)
-              }
+              onClick={() => {
+                const name = dept.name.toLowerCase();
+                const alias = (dept.alias || "").toLowerCase();
+                if (
+                  name.includes("computer studies") ||
+                  alias.includes("css") ||
+                  name.includes("computer")
+                ) {
+                  navigate("/departments/computerstudies");
+                  return;
+                }
+                if (name.includes("nursing") || alias.includes("nursing")) {
+                  navigate("/departments/nursing");
+                  return;
+                }
+                alert(`Page for ${dept.name} is not yet available.`);
+              }}
               className="bg-white rounded-lg shadow-md flex flex-col items-center p-6 hover:shadow-lg transition"
             >
-              {dept.name === "Computer Studies" ||
-              "College of Computer Studies" ? (
+              {dept.image ? (
                 <img
-                  src={CCSimg}
-                  alt="College of Computer Studies"
+                  src={`${backendBase}/storage/${dept.image}`}
+                  alt={dept.name}
                   className="w-20 h-20 sm:w-24 sm:h-24 rounded-full mb-4 object-cover"
                 />
               ) : (

@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import ComputerStudiesServices from "../../../services/ComputerStudiesServices";
-import CssTableForm from "./Components/CssTableForm";
+import NursingServices from "../../../services/NursingServices";
+import NursingTableForm from "./Component/NursingTableForm";
 
 interface Folder {
   id: number;
@@ -9,12 +9,12 @@ interface Folder {
   description?: string;
 }
 
-
-const ComputerStudiesMainPage = () => {
+const NursingMainPage = () => {
   const [folders, setFolders] = useState<Folder[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
-  const [rightClickedFolder, setRightClickedFolder] = useState<Folder | null>(null);
-
+  const [rightClickedFolder, setRightClickedFolder] = useState<Folder | null>(
+    null
+  );
   const [isAddModalOpen, setIsAddModalOpen] = useState(false);
   const [newFolderName, setNewFolderName] = useState("");
   const [isRenameModalOpen, setIsRenameModalOpen] = useState(false);
@@ -22,11 +22,10 @@ const ComputerStudiesMainPage = () => {
 
   const navigate = useNavigate();
 
-  // 🔹 Load folders
   useEffect(() => {
     const fetchFolders = async () => {
       try {
-        const data = await ComputerStudiesServices.loadFolders();
+        const data = await NursingServices.loadFolders();
         setFolders(data);
       } catch (error) {
         console.error("Failed to load folders:", error);
@@ -35,11 +34,10 @@ const ComputerStudiesMainPage = () => {
     fetchFolders();
   }, []);
 
-  // 🔹 Add folder
   const handleAddFolder = async () => {
     if (newFolderName.trim()) {
       try {
-        const newFolder = await ComputerStudiesServices.storeFolder({
+        const newFolder = await NursingServices.storeFolder({
           folderName: newFolderName.trim(),
         });
         setFolders((prev) => [...prev, newFolder]);
@@ -51,12 +49,13 @@ const ComputerStudiesMainPage = () => {
     setIsAddModalOpen(false);
   };
 
-  // 🔹 Delete folder
   const handleDeleteFolder = async () => {
     if (rightClickedFolder) {
       try {
-        await ComputerStudiesServices.destroyFolder(rightClickedFolder.id);
-        setFolders((prev) => prev.filter((f) => f.id !== rightClickedFolder.id));
+        await NursingServices.destroyFolder(rightClickedFolder.id);
+        setFolders((prev) =>
+          prev.filter((f) => f.id !== rightClickedFolder.id)
+        );
       } catch (error) {
         console.error("Failed to delete folder:", error);
       }
@@ -64,14 +63,18 @@ const ComputerStudiesMainPage = () => {
     setIsDeleteModalOpen(false);
   };
 
-  // 🔹 Rename folder
   const handleRenameFolder = async (newName: string) => {
     if (rightClickedFolder) {
       try {
-        const updated = await ComputerStudiesServices.updateFolder(rightClickedFolder.id, {
-          folderName: newName,
-        });
-        setFolders((prev) => prev.map((f) => (f.id === updated.id ? updated : f)));
+        const updated = await NursingServices.updateFolder(
+          rightClickedFolder.id,
+          {
+            folderName: newName,
+          }
+        );
+        setFolders((prev) =>
+          prev.map((f) => (f.id === updated.id ? updated : f))
+        );
       } catch (error) {
         console.error("Failed to rename folder:", error);
       }
@@ -80,7 +83,7 @@ const ComputerStudiesMainPage = () => {
   };
 
   return (
-    <CssTableForm
+    <NursingTableForm
       folders={folders}
       searchTerm={searchTerm}
       setSearchTerm={setSearchTerm}
@@ -102,4 +105,4 @@ const ComputerStudiesMainPage = () => {
   );
 };
 
-export default ComputerStudiesMainPage;
+export default NursingMainPage;

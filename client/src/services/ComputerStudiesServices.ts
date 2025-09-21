@@ -1,26 +1,7 @@
 // src/services/ComputerStudiesServices.ts
+import type { FileItem, Folder } from "../interfaces/ComputerStudies";
 import AxiosInstance from "./AxiosInstances";
 
-// ---------------- FOLDER INTERFACE ----------------
-export interface Folder {
-  id: number;
-  folderName: string;
-  description?: string;
-  created_at?: string;
-  updated_at?: string;
-}
-
-// ---------------- FILE INTERFACE ----------------
-export interface FileItem {
-  id: number;
-  folder_id: number;
-  fileName: string;
-  filePath: string;
-  fileType?: string;
-  fileSize?: number;
-  created_at?: string;
-  updated_at?: string;
-}
 
 const ComputerStudiesServices = {
   // ---------- FOLDER SERVICES ----------

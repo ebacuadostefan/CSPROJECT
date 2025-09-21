@@ -1,5 +1,5 @@
 import { FaTrash } from "react-icons/fa";
-import type { FileItem } from "../../../../../services/ComputerStudiesServices";
+import type { FileItem } from "../../../../../interfaces/ComputerStudies";
 
 
 interface FilesTableProps {

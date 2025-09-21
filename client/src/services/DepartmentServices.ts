@@ -3,6 +3,7 @@ import AxiosInstance from "./AxiosInstances";
 
 export interface Department {
   id: number;
+  image: string;
   name: string;
   alias?: string;
 }
@@ -15,10 +16,14 @@ const DepartmentServices = {
   },
 
   // POST create new department
-  storeDepartment: async (department: Omit<Department, "id">): Promise<Department> => {
-    const response = await AxiosInstance.post("/departments", department);
-    return response.data;
-  },
+  storeDepartment: async (department: FormData): Promise<Department> => {
+  const response = await AxiosInstance.post("/departments", department, {
+    headers: {
+      "Content-Type": "multipart/form-data",
+    },
+  });
+  return response.data;
+},
 
   // PUT update department
   updateDepartment: async (id: number, department: Partial<Department>): Promise<Department> => {
